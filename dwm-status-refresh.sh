@@ -52,7 +52,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name "$(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume)%  $(print_date)"
+xsetroot -name "  $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume)%  $(print_date)"
 
 old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
