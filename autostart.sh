@@ -1,4 +1,4 @@
 #!/bin/bash
 picom -b
-feh --recursive --randomize --bg-fill ~/picture
+feh --recursive --randomize --bg-fill ~/wallpaper
 bash ./dwm-status.sh
