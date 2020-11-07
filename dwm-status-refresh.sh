@@ -48,11 +48,18 @@ print_date(){
 	date '+%Y年%m月%d日 %H:%M'
 }
 
+dwm_weather(){
+	LOCATION=city
+	printf "%s" "$SEP1"
+	printf "Wea:%s" "$(curl -s wttr.in/$LOCATION?format=1 | grep -o "[0-9].*")"
+	printf "%s\n" "$SEP2"
+}
+
 get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name " $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume)%  $(print_date)"
+xsetroot -name " $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume)%  $(print_date) $(dwm_weather)"
 
 old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
