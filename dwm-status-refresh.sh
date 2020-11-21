@@ -49,7 +49,7 @@ print_date(){
 }
 
 dwm_weather(){
-	LOCATION=city
+	LOCATION=qingdao
 	printf "%s" "$SEP1"
 	printf "Tem: %s" "$(curl -s wttr.in/$LOCATION?format=1 | grep -o "[0-9].*")"
 	printf "%s\n" "$SEP2"
