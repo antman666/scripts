@@ -26,9 +26,24 @@ old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
 old_time=$now
 
-print_volume() {
-	volume="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
-	echo -e "Vol:${volume}"
+# print_volume() {
+# 	volume="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
+# 	echo -e "Vol:${volume}"
+# }
+
+print_volume () {
+    volume=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+    printf "%s" "$SEP1"
+    if [ "$volume" -eq 0 ]; then
+        printf "🔇"
+    elif [ "$volume" -gt 0 ] && [ "$volume" -le 33 ]; then
+        printf "🔈 %s%%" "$volume"
+    elif [ "$volume" -gt 33 ] && [ "$volume" -le 66 ]; then
+        printf "🔉 %s%%" "$volume"
+    else
+        printf "🔊 %s%%" "$volume"
+    fi
+    printf "%s\n" "$SEP2"
 }
 
 print_mem(){
@@ -51,7 +66,7 @@ print_date(){
 dwm_weather(){
 	LOCATION=qingdao
 	printf "%s" "$SEP1"
-	printf "Tem: %s" "$(curl -s wttr.in/$LOCATION?format=1 | grep -o "[0-9].*")"
+        printf "%s" "$(curl -s wttr.in/$LOCATION?format=1)"
 	printf "%s\n" "$SEP2"
 }
 
@@ -59,7 +74,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name " $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume)%  $(print_date) $(dwm_weather)"
+xsetroot -name " $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume) $(print_date) $(dwm_weather)"
 
 old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
