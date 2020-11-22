@@ -66,7 +66,7 @@ print_date(){
 dwm_weather(){
 	LOCATION=qingdao
 	printf "%s" "$SEP1"
-        printf "%s" "$(curl -s wttr.in/$LOCATION?format=1)"
+        printf "%s" "$(curl -s wttr.in/$LOCATION?format=1 | sed 's/+//g')"
 	printf "%s\n" "$SEP2"
 }
 
