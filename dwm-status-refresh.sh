@@ -55,8 +55,13 @@ print_mem(){
 		new_memused=`echo "scale=2;$memused/1024" | bc`
 		echo -e "Mem:${new_memused}G"
 	fi
+}
 
-	#echo -e "Mem:${memused}M"
+print_disk(){
+		diskused=$(df -h | awk '{print $5}' | sed -n '4, 1p')
+		printf "%s" "$SEP1"
+		printf ":${diskused}%"
+		printf "%s\n" "$SEP2"
 }
 
 print_date(){
@@ -78,7 +83,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name " $(print_mem)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume) $(print_date) $(dwm_weather)"
+xsetroot -name " $(print_mem)  $(print_disk)  ⬇️$vel_recv ⬆️$vel_trans  $(print_volume) $(print_date) $(dwm_weather)"
 
 old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
