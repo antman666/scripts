@@ -69,7 +69,6 @@ print_date(){
 }
 
 dwm_weather(){
-	LOCATION=qingdao
 	if [[ `curl -s wttr.in/$LOCATION?format=1` == *"Un"* ]]; then
 		printf "%s" "404"
 	elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"out"* ]]; then
