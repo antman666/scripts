@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Set running environment to en_US.UTF-8
+LANG=en_US.UTF-8
+
 function get_bytes {
 	interface=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
 	line=$(grep $interface /proc/net/dev | cut -d ':' -f 2 | awk '{print "received_bytes="$1, "transmitted_bytes="$9}')
