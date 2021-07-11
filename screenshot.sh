@@ -1,2 +1,2 @@
 #!/bin/bash
-scrot -bq 100 screenget.png
+scrot -bq 100 ~/screenget.png
