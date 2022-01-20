@@ -69,26 +69,26 @@ print_disk(){
 }
 
 print_date(){
-	date '+%Y年%m月%d日 %H:%M'
+		date '+%Y年%m月%d日 %H:%M'
 }
 
 dwm_weather(){
-	if [[ `curl -s wttr.in/$LOCATION?format=1` == *"Un"* ]]; then
-		printf "%s" "404"
-	elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"out"* ]]; then
-		printf "%s" "404"
-	else
-		printf "%s" "$SEP1"
-        	printf "%s" "$(curl -s wttr.in/$LOCATION?format=1 | sed 's/+//g')"
-		printf "%s\n" "$SEP2"
-	fi
+		if [[ `curl -s wttr.in/$LOCATION?format=1` == *"Un"* ]]; then
+				printf "%s" "404"
+		elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"out"* ]]; then
+				printf "%s" "404"
+		else
+				printf "%s" "$SEP1"
+				printf "%s" "$(curl -s wttr.in/$LOCATION?format=1 | sed 's/+//g')"
+				printf "%s\n" "$SEP2"
+		fi
 }
 
 get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name " $(print_mem)  $(print_disk)  ﰵ$vel_recv ﰬ$vel_trans  $(print_volume) $(print_date) $(dwm_weather)"
+xsetroot -name " $(print_mem)  $(print_disk)  ﰬ$vel_recv ﰵ$vel_trans  $(print_volume) $(print_date)  $(dwm_weather)"
 
 old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
