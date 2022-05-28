@@ -73,10 +73,12 @@ print_date(){
 }
 
 dwm_weather(){
-		if [[ `curl -s wttr.in/$LOCATION?format=1` == *"Un"* ]]; then
+		if [[ `curl -s wttr.in/$LOCATION?format=1` == *"404"* ]]; then
 				printf "%s" "404"
-		elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"out"* ]]; then
-				printf "%s" "404"
+		elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"502"* ]]; then
+				printf "%s" "502"
+		elif [[ `curl -s wttr.in/$LOCATION?format=1` == *"500"* ]]; then
+				printf "%s" "500"
 		else
 				printf "%s" "$SEP1"
 				printf "%s" "$(curl -s wttr.in/$LOCATION?format=1 | sed 's/+//g')"
