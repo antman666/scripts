@@ -53,10 +53,36 @@ function dwm_network_speed {
     printf "%s %s" "$(upload_speed)" "$(download_speed)"
 }
 
+dwm_battery () {
+    # Change BAT1 to whatever your battery is identified as. Typically BAT0 or BAT1
+    CHARGE=$(cat /sys/class/power_supply/BAT1/capacity)
+    STATUS=$(cat /sys/class/power_supply/BAT1/status)
+
+    printf "%s" "$SEP1"
+    if [ "$STATUS" = "Charging" ] || [ "$STATUS" = "Full" ]; then
+        if [ "$CHARGE" -le 100 ] && [ "$CHARGE" -ge 66 ]; then
+            printf "󱊦 %s%% %s" "$CHARGE" "$STATUS"
+        elif [ "$CHARGE" -le 66 ] && [ "$CHARGE" -ge 33 ]; then
+            printf "󱊥 %s%% %s" "$CHARGE" "$STATUS"
+        else
+            printf "󱊤 %s%% %s" "$CHARGE" "$STATUS"
+        fi
+    else
+        if [ "$CHARGE" -le 100 ] && [ "$CHARGE" -ge 66 ]; then
+            printf "󱊣 %s%% %s" "$CHARGE" "$STATUS"
+        elif [ "$CHARGE" -le 66 ] && [ "$CHARGE" -ge 33 ]; then
+            printf "󱊢 %s%% %s" "$CHARGE" "$STATUS"
+        else
+            printf "󱊡 %s%% %s" "$CHARGE" "$STATUS"
+        fi
+    fi
+    printf "%s\n" "$SEP2"
+}
+
 print_volume () {
     volume=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
     if [ "$volume" -eq 0 ]; then
-        printf "󰖁"
+        printf "󰸈"
     elif [ "$volume" -gt 0 ] && [ "$volume" -le 33 ]; then
         printf "󰕿 %s%%" "$volume"
     elif [ "$volume" -gt 33 ] && [ "$volume" -le 66 ]; then
@@ -100,7 +126,7 @@ dwm_weather(){
 
 dwm_network_speed_record
 
-xsetroot -name " $(print_mem)  $(print_disk)  $(dwm_network_speed)  $(print_volume) $(print_date)  $(dwm_weather)"
+xsetroot -name " $(print_mem)  $(print_disk)  $(dwm_network_speed)  $(print_volume)  [$(dwm_battery)]  $(print_date)  $(dwm_weather)"
 # xsetroot -name " $(print_mem)  $(print_disk)  $vel_recv $vel_trans  $(print_volume) $(print_date)  "
 
 exit 0
